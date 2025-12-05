@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Space Vibe Shooter</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background-color: #000;
+      }
+
+      #game-container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        touch-action: none;
+      }
+
+      canvas {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="game-container"></div>
+
+    <!-- Phaser 3 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser.min.js"></script>
+
+    <!-- Config (must load first) -->
+    <script src="src/config/GameConfig.js"></script>
+
+    <!-- Utils -->
+    <script src="src/utils/TextureGenerator.js"></script>
+    <script src="src/utils/Effects.js"></script>
+
+    <!-- Entities -->
+    <script src="src/entities/Player.js"></script>
+    <script src="src/entities/Enemy.js"></script>
+    <script src="src/entities/Boss.js"></script>
+
+    <!-- Systems -->
+    <script src="src/systems/BulletManager.js"></script>
+    <script src="src/systems/PowerUpManager.js"></script>
+    <script src="src/systems/StageManager.js"></script>
+
+    <!-- UI -->
+    <script src="src/ui/GameUI.js"></script>
+
+    <!-- Main Scene -->
+    <script src="src/scenes/GameScene.js"></script>
+
+    <!-- Game Entry Point -->
+    <script src="main.js"></script>
+  </body>
+</html>

@@ -181,6 +181,27 @@ sudo nginx -t
 sudo systemctl restart nginx
 ```
 
+### 4. Thiết lập HTTPS (SSL miễn phí với Let's Encrypt)
+
+Chạy các lệnh sau trên VPS để tự động cài đặt SSL:
+
+```bash
+# 1. Cài đặt Certbot
+sudo apt install certbot python3-certbot-nginx -y
+
+# 2. Lấy chứng chỉ SSL và tự động config Nginx
+# Thay spaceshooter.tnt-tech.io.vn bằng domain của bạn nếu khác
+sudo certbot --nginx -d spaceshooter.tnt-tech.io.vn
+
+# 3. Làm theo hướng dẫn trên màn hình:
+# - Nhập email (để nhận thông báo hết hạn)
+# - Chọn A (Agree)
+# - Chọn Y/N (Share email)
+# - Quan trọng: Nếu nó hỏi redirect HTTP sang HTTPS, chọn 2 (Redirect)
+```
+
+Certbot sẽ tự động sửa file config Nginx của bạn để hỗ trợ HTTPS. Certificate sẽ tự động gia hạn mỗi 90 ngày.
+
 ### 2. Trên GitHub Repository
 
 Vào **Settings** > **Secrets and variables** > **Actions** > **New repository secret** và thêm 3 secrets sau:

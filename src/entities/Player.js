@@ -42,6 +42,9 @@ class Player {
             this.sprite.setVelocityX(this.speed);
         }
 
+        // Shooting is handled by GameScene timer calling playerAutoShoot
+        // Moving logic only here
+
         if (this.cursors.up.isDown || this.wasd.up.isDown) {
             this.sprite.setVelocityY(-this.speed);
         } else if (this.cursors.down.isDown || this.wasd.down.isDown) {
@@ -56,6 +59,15 @@ class Player {
         }
         createFlashEffect(this.scene, this.sprite, 100, 3);
         return this.hp <= 0;
+    }
+
+    heal() {
+        if (this.hp < this.maxHP) {
+            this.hp++;
+            createFlashEffect(this.scene, this.sprite, 100, 1, 0x00ff00);
+            return true;
+        }
+        return false;
     }
 
     setPowerUp(pattern) {

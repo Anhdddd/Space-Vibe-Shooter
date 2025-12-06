@@ -38,7 +38,8 @@ const ENEMY_TYPES = {
 const POWER_UP_TYPES = {
     double: { color: 0xffff00, name: 'DOUBLE' },
     triple: { color: 0x0088ff, name: 'TRIPLE' },
-    fan: { color: 0xff00ff, name: 'FAN' }
+    fan: { color: 0xff00ff, name: 'FAN' },
+    hp: { color: 0x00ff00, name: '❤️ HP UP' }
 };
 
 // Boss settings

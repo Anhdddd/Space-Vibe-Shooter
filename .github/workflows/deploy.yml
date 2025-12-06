@@ -1,0 +1,28 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: 22
+          script: |
+            # Chạy script deploy trên VPS
+            # Giả sử bạn đã clone repo vào /var/www/space-vibe-shooter
+            cd /var/www/space-vibe-shooter
+
+            # Cấp quyền thực thi cho script (chạy 1 lần là đủ, nhưng để đây cho chắc)
+            chmod +x deployment/deploy.sh
+
+            # Chạy script deploy
+            ./deployment/deploy.sh

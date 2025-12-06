@@ -8,12 +8,44 @@ class GameScene extends Phaser.Scene {
     }
 
     preload() {
-        generateAllTextures(this);
+        // Load Kenney Assets
+        this.load.setPath('kenney_space-shooter-redux/');
+
+        // Background
+        this.load.image('background', 'Backgrounds/darkPurple.png');
+
+        // Player
+        this.load.image('player', 'PNG/playerShip1_blue.png');
+
+        // Enemies
+        this.load.image('enemy_basic', 'PNG/Enemies/enemyBlack1.png');
+        this.load.image('enemy_medium', 'PNG/Enemies/enemyBlue1.png');
+        this.load.image('enemy_tank', 'PNG/Enemies/enemyGreen1.png');
+        this.load.image('boss', 'PNG/ufoRed.png');
+
+        // Bullets
+        this.load.image('bullet', 'PNG/Lasers/laserBlue01.png');
+        this.load.image('enemyBullet', 'PNG/Lasers/laserRed01.png');
+
+        // Power-ups
+        this.load.image('powerup_double', 'PNG/Power-ups/powerupYellow_bolt.png');
+        this.load.image('powerup_triple', 'PNG/Power-ups/powerupBlue_bolt.png');
+        this.load.image('powerup_fan', 'PNG/Power-ups/powerupRed_bolt.png');
+        this.load.image('powerup_hp', 'PNG/Power-ups/pill_green.png');
+
+        // Audio
+        this.load.audio('sfx_shoot', 'Bonus/sfx_laser1.ogg');
+        this.load.audio('sfx_enemy_shoot', 'Bonus/sfx_laser2.ogg');
+        this.load.audio('sfx_explosion', 'Bonus/sfx_twoTone.ogg');
+        this.load.audio('sfx_powerup', 'Bonus/sfx_shieldUp.ogg');
     }
 
     create() {
+        // Add scrolling background
+        this.bg = this.add.tileSprite(400, 300, 800, 600, 'background');
+
         this.initializeGameState();
-        createStarfield(this);
+        // createStarfield(this); // Disabled starfield in favor of background image
         this.createEntities();
         this.createGroups();
         this.setupTimers();
@@ -51,6 +83,7 @@ class GameScene extends Phaser.Scene {
             callback: () => {
                 if (this.isGameOver || this.isPaused) return;
                 playerAutoShoot(
+                    this,
                     this.playerBullets,
                     this.playerEntity.x,
                     this.playerEntity.y,
@@ -124,6 +157,9 @@ class GameScene extends Phaser.Scene {
     update() {
         if (this.isGameOver || this.isPaused) return;
 
+        // Scroll background
+        this.bg.tilePositionY -= 0.5;
+
         this.playerEntity.update();
         cleanupBullets(this.playerBullets);
         cleanupEnemyBullets(this.enemyBullets);
@@ -144,6 +180,9 @@ class GameScene extends Phaser.Scene {
             const score = enemy.getData('score');
             this.score += score;
             this.ui.updateScore(this.score);
+
+            // Play explosion sound
+            this.sound.play('sfx_explosion', { volume: 0.5 });
 
             createExplosion(this, enemy.x, enemy.y);
 
@@ -183,9 +222,21 @@ class GameScene extends Phaser.Scene {
     }
 
     handlePowerUpCollision(player, powerUp) {
+        this.sound.play('sfx_powerup', { volume: 0.5 });
         const type = collectPowerUp(powerUp);
-        this.playerEntity.setPowerUp(type);
-        this.ui.showPowerUp(getPowerUpName(type));
+
+        if (type === 'hp') {
+            const healed = this.playerEntity.heal();
+            if (healed) {
+                this.ui.showPowerUp('❤️ HP UP!');
+                this.ui.updateHP(this.playerEntity.hp);
+            } else {
+                this.ui.showPowerUp('HP FULL!');
+            }
+        } else {
+            this.playerEntity.setPowerUp(type);
+            this.ui.showPowerUp(getPowerUpName(type));
+        }
     }
 
     handleBulletBossCollision(objA, objB) {

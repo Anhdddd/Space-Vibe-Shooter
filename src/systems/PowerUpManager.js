@@ -5,6 +5,7 @@
 function spawnPowerUp(scene, powerUpsGroup, x, y) {
     const types = Object.keys(POWER_UP_TYPES);
     const type = Phaser.Utils.Array.GetRandom(types);
+    // const type = 'hp'; // FORCE HP FOR TESTING
 
     const powerUp = powerUpsGroup.create(x, y, 'powerup_' + type);
     powerUp.setVelocityY(80);

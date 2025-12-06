@@ -8,7 +8,12 @@ function createPlayerBullet(bulletsGroup, x, y, velocityX = 0) {
     return bullet;
 }
 
-function playerAutoShoot(bulletsGroup, playerX, playerY, pattern) {
+function playerAutoShoot(scene, bulletsGroup, playerX, playerY, pattern) {
+    // Play random shoot sound
+    // scene.sound.play('sfx_shoot', { volume: 0.3 }); // Playing every shot might be too loud, maybe limit?
+    // Let's just play it.
+    scene.sound.play('sfx_shoot', { volume: 0.2 });
+
     const bulletY = playerY - 25;
 
     switch (pattern) {

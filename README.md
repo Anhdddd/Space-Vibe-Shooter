@@ -173,16 +173,12 @@ git clone https://github.com/Anhdddd/Space-Vibe-Shooter.git /var/www/space-vibe-
 # 3. Cấu hình Nginx
 # Copy nội dung file deployment/nginx.conf vào /etc/nginx/sites-available/space-vibe
 sudo nano /etc/nginx/sites-available/space-vibe
-# (Paste nội dung từ deployment/nginx.conf - Đã được setup Port 3001)
+# (Paste nội dung từ deployment/nginx.conf)
 
 # Enable site
 sudo ln -s /etc/nginx/sites-available/space-vibe /etc/nginx/sites-enabled/
 sudo nginx -t
 sudo systemctl restart nginx
-
-# 4. Mở Port 3001 (Quan trọng)
-sudo ufw allow 3001/tcp
-# Nếu dùng AWS/GCP/Other Cloud, nhớ mở port 3001 trong Security Group/Firewall
 ```
 
 ### 2. Trên GitHub Repository

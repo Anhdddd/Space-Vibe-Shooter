@@ -52,6 +52,30 @@ class Player {
         }
     }
 
+    handleTouch(targetX, targetY) {
+        // Smooth movement towards touch position
+        const dx = targetX - this.sprite.x;
+        const dy = targetY - this.sprite.y;
+
+        // Simple lerp-like movement or direct set velocity
+        // For responsiveness, setting velocity is better for physics, 
+        // but direct position setting with lerp feels snappier for touch.
+        // Let's use physics velocity for consistency with collision system.
+
+        const angle = Math.atan2(dy, dx);
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance > 10) {
+            const speed = distance * 5; // Dynamic speed based on distance
+            this.sprite.setVelocity(
+                Math.cos(angle) * speed,
+                Math.sin(angle) * speed
+            );
+        } else {
+            this.sprite.setVelocity(0);
+        }
+    }
+
     takeDamage() {
         this.hp--;
         if (this.bulletPattern !== 'single') {

@@ -160,7 +160,17 @@ class GameScene extends Phaser.Scene {
         // Scroll background
         this.bg.tilePositionY -= 0.5;
 
-        this.playerEntity.update();
+        // Handle Touch/Mouse Input
+        if (this.input.activePointer.isDown) {
+            // "Finger" follows logic: Ship is slightly above finger
+            const targetX = this.input.activePointer.x;
+            const targetY = this.input.activePointer.y - 50;
+
+            this.playerEntity.handleTouch(targetX, targetY);
+        } else {
+            this.playerEntity.update(); // Keyboard fallback
+        }
+
         cleanupBullets(this.playerBullets);
         cleanupEnemyBullets(this.enemyBullets);
         cleanupEnemies(this.enemies);
